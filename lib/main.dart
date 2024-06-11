@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
 
 Future<void> main() async {
   // Flutterエンジンを初期化
@@ -21,11 +22,11 @@ class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
-  _MainAppState createState() => _MainAppState();
+  MainAppState createState() => MainAppState();
 }
 
 // _MainAppStateクラス: MainAppウィジェットの状態を管理
-class _MainAppState extends State<MainApp> {
+class MainAppState extends State<MainApp> {
   // 人数を保持する変数を宣言し、初期値を0に設定
   int _personCount = 0;
 
@@ -52,10 +53,31 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     // アプリケーションのUIを構築
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme:
+            GoogleFonts.sawarabiGothicTextTheme(Theme.of(context).textTheme),
+      ),
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text('研究室の人数'),
+        ),
         body: Center(
           // 取得した人数を表示するテキストウィジェット
-          child: Text('Person Count: $_personCount'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.person,
+                size: 100,
+              ),
+              Text(
+                '今研究室にいる人数は\n $_personCount人\nです',
+                style: const TextStyle(fontSize: 74),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
