@@ -27,9 +27,10 @@ class MainApp extends StatefulWidget {
 
 // _MainAppStateクラス: MainAppウィジェットの状態を管理
 class MainAppState extends State<MainApp> {
-  // 人数を保持する変数を宣言し、初期値を0に設定
+// 人数を保持する変数を宣言し、初期値を0に設定
   int _personCount = 0;
-
+// タイムスタンプを保持する変数を宣言し、初期値を空文字列に設定
+  String _timestamp = '';
   @override
   void initState() {
     super.initState();
@@ -38,14 +39,18 @@ class MainAppState extends State<MainApp> {
   }
 
   // データベースから人数を取得するメソッド
+// データベースから人数とタイムスタンプを取得するメソッド
   Future<void> _fetchPersonCount() async {
-    // Supabaseクライアントを使用して、countテーブルからpersonカラムの値を取得
-    final response =
-        await Supabase.instance.client.from('count').select('person').single();
+    // Supabaseクライアントを使用して、countテーブルからpersonカラムとtimeカラムの値を取得
+    final response = await Supabase.instance.client
+        .from('count')
+        .select('person, time')
+        .single();
 
-    // 取得した人数を_personCount変数に設定し、UIを更新
+    // 取得した人数と時刻を変数に設定し、UIを更新
     setState(() {
       _personCount = response['person'] as int;
+      _timestamp = response['time'] as String;
     });
   }
 
@@ -63,7 +68,7 @@ class MainAppState extends State<MainApp> {
           title: const Text('研究室の人数'),
         ),
         body: Center(
-          // 取得した人数を表示するテキストウィジェット
+          // 取得した人数とタイムスタンプを表示するテキストウィジェット
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -76,6 +81,12 @@ class MainAppState extends State<MainApp> {
                 style: const TextStyle(fontSize: 74),
                 textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 20),
+              Text(
+                'タイムスタンプ: $_timestamp',
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 100),
             ],
           ),
         ),
