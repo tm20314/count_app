@@ -41170,7 +41170,7 @@ var $async$$0=A.J(function(a,b){if(a===1)return A.F(b,r)
 while(true)switch(s){case 0:q=$.T6().z
 q===$&&A.a()
 s=2
-return A.L(A.F5(q,B.GH,"https://gadgelogger.github.io/count_app/login-callback"),$async$$0)
+return A.L(A.F5(q,B.GH,"https://gadgelogger.github.io/count_app/"),$async$$0)
 case 2:return A.G(null,r)}})
 return A.H($async$$0,r)},
 $S:35}
