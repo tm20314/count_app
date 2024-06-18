@@ -9,4 +9,6 @@ abstract class Env {
 
   @EnviedField(varName: 'KEY2')
   static String key2 = _Env.key2;
+  @EnviedField(varName: 'KEY3')
+  static String key3 = _Env.key3;
 }
