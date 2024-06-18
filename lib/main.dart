@@ -1,6 +1,8 @@
 import 'package:count_app/screens/login_screen.dart';
+import 'package:count_app/screens/second_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show AuthState, Supabase;
 
 Future<void> main() async {
   // Flutterエンジンを初期化
@@ -16,6 +18,8 @@ Future<void> main() async {
   runApp(const MainApp());
 }
 
+final supabase = Supabase.instance.client;
+
 // MainAppクラス: アプリケーションの状態を管理するStatefulWidget
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -29,7 +33,31 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const AuthGate(),
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<AuthState>(
+      stream: supabase.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
+        } else {
+          final session = snapshot.data?.session;
+          if (session != null) {
+            return const SecondScreen();
+          } else {
+            return const LoginScreen();
+          }
+        }
+      },
     );
   }
 }
