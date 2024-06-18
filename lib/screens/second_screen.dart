@@ -1,5 +1,4 @@
 import 'package:count_app/main.dart';
-import 'package:count_app/screens/login_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +61,7 @@ class SecondScreenState extends State<SecondScreen> {
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => const HomePage(),
       ),
     );
   }
@@ -71,7 +70,7 @@ class SecondScreenState extends State<SecondScreen> {
     final response = await Supabase.instance.client
         .from('count')
         .select('person, time, image_url')
-        .order('time', ascending: false)
+        .order('time', ascending: true)
         .limit(1)
         .single();
 
@@ -148,72 +147,78 @@ class SecondScreenState extends State<SecondScreen> {
                   : const SizedBox(),
               const SizedBox(height: 20),
               SizedBox(
-                height: 200,
-                child: BarChart(
-                  BarChartData(
-                    barGroups: _personCountData.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final data = entry.value;
-                      return BarChartGroupData(
-                        x: index,
-                        barRods: [
-                          BarChartRodData(
-                            toY: data.count.toDouble(),
-                            color: Colors.blue,
-                            width: 22,
-                          ),
-                        ],
-                      );
-                    }).toList(),
-                    alignment: BarChartAlignment.spaceAround,
-                    titlesData: FlTitlesData(
-                      show: true,
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (double value, TitleMeta meta) {
-                            final index = value.toInt();
-                            if (index >= 0 && index < _personCountData.length) {
-                              final date = _personCountData[index].time;
-                              final format = DateFormat('HH');
-                              return SideTitleWidget(
-                                axisSide: meta.axisSide,
-                                child: Text(format.format(date)),
-                              );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                      ),
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 30,
-                          getTitlesWidget: (double value, TitleMeta meta) {
-                            return Text(value.toInt().toString());
-                          },
-                        ),
-                      ),
-                      topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                      rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false),
-                      ),
-                    ),
-                    gridData: FlGridData(
-                      show: true,
-                      drawVerticalLine: false,
-                      getDrawingHorizontalLine: (value) {
-                        return FlLine(
-                          color: Colors.grey.withOpacity(0.2),
-                          strokeWidth: 1,
+                  height: 200,
+                  child: BarChart(
+                    BarChartData(
+                      barGroups: _personCountData.reversed
+                          .toList()
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                        final index = entry.key;
+                        final data = entry.value;
+                        return BarChartGroupData(
+                          x: index,
+                          barRods: [
+                            BarChartRodData(
+                              toY: data.count.toDouble(),
+                              color: Colors.blue,
+                              width: 22,
+                            ),
+                          ],
                         );
-                      },
+                      }).toList(),
+                      alignment: BarChartAlignment.spaceAround,
+                      titlesData: FlTitlesData(
+                        show: true,
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            getTitlesWidget: (double value, TitleMeta meta) {
+                              final index = value.toInt();
+                              if (index >= 0 &&
+                                  index < _personCountData.length) {
+                                final date = _personCountData.reversed
+                                    .toList()[index]
+                                    .time;
+                                final format = DateFormat('HH');
+                                return SideTitleWidget(
+                                  axisSide: meta.axisSide,
+                                  child: Text(format.format(date)),
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 30,
+                            getTitlesWidget: (double value, TitleMeta meta) {
+                              return Text(value.toInt().toString());
+                            },
+                          ),
+                        ),
+                        topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                      ),
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: false,
+                        getDrawingHorizontalLine: (value) {
+                          return FlLine(
+                            color: Colors.grey.withOpacity(0.2),
+                            strokeWidth: 1,
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
               const SizedBox(height: 20),
             ],
           ),
