@@ -2,14 +2,15 @@ import 'package:count_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
 
-import 'env/env.dart';
-
 Future<void> main() async {
   // Flutterエンジンを初期化
   WidgetsFlutterBinding.ensureInitialized();
 
   // SupabaseクライアントをURLとアノニマスキーで初期化
-  await Supabase.initialize(url: Env.key1, anonKey: Env.key2);
+  await Supabase.initialize(
+      url: 'https://ycnpvgqdogzhjhiilvbs.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljbnB2Z3Fkb2d6aGpoaWlsdmJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU3MDkxMDksImV4cCI6MjAzMTI4NTEwOX0.w32xNB9Wv81yD5X3mvvSUuKb2ydvMrqvDXFg7DWa0L0');
 
   // MainAppウィジェットを使用してアプリケーションを開始
   runApp(const MainApp());
