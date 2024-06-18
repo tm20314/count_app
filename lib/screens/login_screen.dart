@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             await supabase.auth.signInWithOAuth(
               OAuthProvider.google,
               redirectTo:
-                  'https://gadgelogger.github.io/count_app/login-callback', // Web用のリダイレクトURL
+                  'https://gadgelogger.github.io/count_app/login-callback',
             );
           },
           child: const Text('Google login'),
