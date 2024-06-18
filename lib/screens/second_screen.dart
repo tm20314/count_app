@@ -1,4 +1,7 @@
+import 'package:count_app/main.dart';
+import 'package:count_app/screens/login_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
@@ -20,6 +23,48 @@ class SecondScreenState extends State<SecondScreen> {
   void initState() {
     super.initState();
     _fetchData();
+  }
+
+  void openLogOutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('ログアウト'),
+          content: const Text('ログアウトしますか?'),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'キャンセル',
+                style: TextStyle(color: Colors.blueAccent),
+              ),
+            ),
+            CupertinoDialogAction(
+              child: const Text(
+                'ログアウト',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                logout();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> logout() async {
+    await supabase.auth.signOut();
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   Future<void> _fetchData() async {
@@ -68,6 +113,12 @@ class SecondScreenState extends State<SecondScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('研究室の人数'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: openLogOutDialog,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Center(
