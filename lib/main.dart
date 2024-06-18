@@ -70,16 +70,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _nativeGoogleSignIn() async {
-    /// TODO: update the Web client ID with your own.
     ///
     /// Web Client ID that you registered with Google Cloud.
     const webClientId =
         '242312621999-13sbtm407bp8t2g0k506jo3astk4c1et.apps.googleusercontent.com';
 
-    /// TODO: update the iOS client ID with your own.
     ///
     /// iOS Client ID that you registered with Google Cloud.
-    const iosClientId = 'my-ios.apps.googleusercontent.com';
+    const iosClientId =
+        '242312621999-ppq3o5v084j5qao0tijugh2c9o27l0f6.apps.googleusercontent.com';
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
