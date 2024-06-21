@@ -70,7 +70,7 @@ class SecondScreenState extends State<SecondScreen> {
     final response = await Supabase.instance.client
         .from('count')
         .select('person, time, image_url')
-        .order('time', ascending: true)
+        .order('time', ascending: false)
         .limit(1)
         .single();
 
