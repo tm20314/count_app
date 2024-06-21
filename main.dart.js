@@ -41482,7 +41482,7 @@ var $async$oP=A.H(function(a,b){if(a===1)return A.D(b,r)
 while(true)switch(s){case 0:m=$.dw()
 l=m.b
 l===$&&A.a()
-l=l.MO("count").Ek(0,"person, time, image_url").O2(0,"time",!0).NE(1)
+l=l.MO("count").Ek(0,"person, time, image_url").O2(0,"time",!1).NE(1)
 p=t.N
 p=A.cY(l.b,p,p)
 p.l(0,"Accept","application/vnd.pgrst.object+json")
@@ -72324,8 +72324,8 @@ s.a=!s.a}return a},
 $S:36}
 A.nv.prototype={
 AQ(a){return A.a4Z(this.Go(a),A.o(this).c)},
-O2(a,b,c){var s=this,r=s.f.gfa().i(0,"order"),q=r==null?"":r+",",p=c?"asc":"desc"
-return A.a4Z(s.AQ(s.O4("order",q+b+"."+p+".nullslast")),A.o(s).c)},
+O2(a,b,c){var s=this,r=s.f.gfa().i(0,"order"),q=r==null?"":r+","
+return A.a4Z(s.AQ(s.O4("order",q+b+".desc.nullslast")),A.o(s).c)},
 NE(a){var s=this.f,r=t.z,q=A.pv(s.ghT(),t.N,r),p=q.i(0,"limit")
 r=A.a4(p==null?[]:p,!0,r)
 r.push(""+a)
