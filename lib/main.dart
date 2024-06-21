@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const SecondScreen(),
     );
   }
 }
@@ -115,10 +115,11 @@ class _HomePageState extends State<HomePage> {
               Text(_userId ?? 'Not logged in'),
               ElevatedButton(
                   onPressed: () async {
-                    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+                    if (Platform.isAndroid || Platform.isIOS) {
                       await _nativeGoogleSignIn();
+                    } else if (kIsWeb) {
+                      await supabase.auth.signInWithOAuth(OAuthProvider.google);
                     }
-                    await supabase.auth.signInWithOAuth(OAuthProvider.google);
                   },
                   child: const Text('Sign in')),
             ],
