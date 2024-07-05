@@ -1,6 +1,6 @@
-import 'package:count_app/main.dart';
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
@@ -22,48 +22,6 @@ class SecondScreenState extends State<SecondScreen> {
   void initState() {
     super.initState();
     _fetchData();
-  }
-
-  void openLogOutDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: const Text('ログアウト'),
-          content: const Text('ログアウトしますか?'),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDestructiveAction: true,
-              onPressed: () => Navigator.pop(context),
-              child: const Text(
-                'キャンセル',
-                style: TextStyle(color: Colors.blueAccent),
-              ),
-            ),
-            CupertinoDialogAction(
-              child: const Text(
-                'ログアウト',
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                logout();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> logout() async {
-    await supabase.auth.signOut();
-    await Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ),
-    );
   }
 
   Future<void> _fetchData() async {
@@ -100,128 +58,176 @@ class SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _personCountData
-        .asMap()
-        .entries
-        .map((entry) => FlSpot(
-              entry.key.toDouble(),
-              entry.value.count.toDouble(),
-            ))
-        .toList();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('研究室の人数'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: openLogOutDialog,
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.person,
-                size: 100,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildCurrentCount(),
+                const SizedBox(height: 20),
+                _buildTimestamp(),
+                const SizedBox(height: 20),
+                _buildImage(),
+                const SizedBox(height: 20),
+                _buildGraph(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCurrentCount() {
+    return Card(
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const Icon(
+              Icons.person,
+              size: 50,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '現在の人数',
+              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+            ),
+            Text(
+              '$_personCount人',
+              style: const TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                '今研究室にいる人数は\n $_personCount人\nです',
-                style: const TextStyle(fontSize: 24),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'タイムスタンプ: $_timestamp',
-                style: const TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 20),
-              _imageUrl.isNotEmpty
-                  ? Image.network(
-                      _imageUrl,
-                      height: 200,
-                    )
-                  : const SizedBox(),
-              const SizedBox(height: 20),
-              SizedBox(
-                  height: 200,
-                  child: BarChart(
-                    BarChartData(
-                      barGroups: _personCountData.reversed
-                          .toList()
-                          .asMap()
-                          .entries
-                          .map((entry) {
-                        final index = entry.key;
-                        final data = entry.value;
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: data.count.toDouble(),
-                              color: Colors.blue,
-                              width: 22,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimestamp() {
+    return Text(
+      'タイムスタンプ: $_timestamp',
+      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildImage() {
+    return _imageUrl.isNotEmpty
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.network(_imageUrl, height: 300, fit: BoxFit.cover),
+          )
+        : const SizedBox();
+  }
+
+  Widget _buildGraph() {
+    return Card(
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              '過去24時間の人数変動',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: max(MediaQuery.of(context).size.width - 32, 600),
+                height: 300,
+                child: BarChart(
+                  BarChartData(
+                    barGroups: _personCountData.reversed
+                        .toList()
+                        .asMap()
+                        .entries
+                        .map((entry) {
+                      final index = entry.key;
+                      final data = entry.value;
+                      return BarChartGroupData(
+                        x: index,
+                        barRods: [
+                          BarChartRodData(
+                            toY: data.count.toDouble(),
+                            gradient: const LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [Colors.blue, Colors.blueAccent],
                             ),
-                          ],
-                        );
-                      }).toList(),
-                      alignment: BarChartAlignment.spaceAround,
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              final index = value.toInt();
-                              if (index >= 0 &&
-                                  index < _personCountData.length) {
-                                final date = _personCountData.reversed
-                                    .toList()[index]
-                                    .time;
-                                final format = DateFormat('HH');
-                                return SideTitleWidget(
-                                  axisSide: meta.axisSide,
-                                  child: Text(format.format(date)),
-                                );
-                              }
-                              return const SizedBox();
-                            },
+                            width: 16,
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(4)),
                           ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              return Text(value.toInt().toString());
-                            },
-                          ),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
+                        ],
+                      );
+                    }).toList(),
+                    alignment: BarChartAlignment.spaceAround,
+                    titlesData: FlTitlesData(
+                      show: true,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (double value, TitleMeta meta) {
+                            final index = value.toInt();
+                            if (index >= 0 && index < _personCountData.length) {
+                              final date = _personCountData.reversed
+                                  .toList()[index]
+                                  .time;
+                              final format = DateFormat('HH');
+                              return SideTitleWidget(
+                                axisSide: meta.axisSide,
+                                child: Text(format.format(date)),
+                              );
+                            }
+                            return const SizedBox();
+                          },
                         ),
                       ),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.grey.withOpacity(0.2),
-                            strokeWidth: 1,
-                          );
-                        },
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (double value, TitleMeta meta) {
+                            return Text(value.toInt().toString());
+                          },
+                          interval: 1,
+                        ),
+                      ),
+                      topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
                       ),
                     ),
-                  )),
-              const SizedBox(height: 20),
-            ],
-          ),
+                    gridData: FlGridData(
+                      show: true,
+                      drawVerticalLine: false,
+                      getDrawingHorizontalLine: (value) {
+                        return FlLine(
+                          color: Colors.grey.withOpacity(0.2),
+                          strokeWidth: 1,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
