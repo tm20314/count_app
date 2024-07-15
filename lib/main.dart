@@ -1,4 +1,4 @@
-import 'package:count_app/screens/second_screen.dart';
+import 'package:count_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,10 +22,10 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Auth',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
         useMaterial3: true,
       ),
-      home: const SecondScreen(),
+      home: const LoginScreen(),
     );
   }
 }

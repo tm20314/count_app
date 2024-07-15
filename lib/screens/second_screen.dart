@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:count_app/screens/login_screen.dart';
+import 'package:count_app/widgets/app_drawer.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -58,25 +60,41 @@ class SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('研究室の人数'),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildCurrentCount(),
-                const SizedBox(height: 20),
-                _buildTimestamp(),
-                const SizedBox(height: 20),
-                _buildImage(),
-                const SizedBox(height: 20),
-                _buildGraph(),
-              ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('研究室の人数'),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {
+                  showDialog<void>(
+                      context: context,
+                      builder: (_) {
+                        return const LogoutDialog();
+                      });
+                }),
+          ],
+        ),
+        drawer: const AppDrawer(), // ここでAppDrawerを追加
+
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildCurrentCount(),
+                  const SizedBox(height: 20),
+                  _buildTimestamp(),
+                  const SizedBox(height: 20),
+                  _buildImage(),
+                  const SizedBox(height: 20),
+                  _buildGraph(),
+                ],
+              ),
             ),
           ),
         ),
@@ -122,12 +140,45 @@ class SecondScreenState extends State<SecondScreen> {
   }
 
   Widget _buildImage() {
-    return _imageUrl.isNotEmpty
-        ? ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(_imageUrl, height: 300, fit: BoxFit.cover),
-          )
-        : const SizedBox();
+    if (_imageUrl.isEmpty) {
+      return const SizedBox();
+    }
+
+    return GestureDetector(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.network(
+          _imageUrl,
+          height: 300,
+          fit: BoxFit.cover,
+        ),
+      ),
+      onTap: () {
+        showGeneralDialog(
+          context: context,
+          transitionDuration: const Duration(milliseconds: 300),
+          barrierDismissible: true,
+          barrierLabel: '',
+          pageBuilder: (context, animation1, animation2) {
+            return Center(
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: SingleChildScrollView(
+                    child: InteractiveViewer(
+                      minScale: 0.1,
+                      maxScale: 5,
+                      child: Image.network(_imageUrl),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget _buildGraph() {
@@ -239,4 +290,35 @@ class PersonCountData {
   final int count;
 
   PersonCountData(this.time, this.count);
+}
+
+class LogoutDialog extends StatelessWidget {
+  const LogoutDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('注意', textAlign: TextAlign.center),
+      content: const Text('ログアウトしても大丈夫そ？', textAlign: TextAlign.center),
+      actions: <Widget>[
+        GestureDetector(
+          child: const Text('いいえ'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        GestureDetector(
+          child: const Text('はい大丈夫そ'),
+          onTap: () {
+            Supabase.instance.client.auth.signOut();
+            const SnackBar(content: Text('ログアウトしました'));
+
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+              return const LoginScreen();
+            }));
+          },
+        )
+      ],
+    );
+  }
 }
