@@ -1,4 +1,4 @@
-import 'package:count_app/screens/login_screen.dart';
+import 'package:count_app/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

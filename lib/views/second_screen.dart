@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:count_app/screens/login_screen.dart';
+import 'package:count_app/views/login_screen.dart';
 import 'package:count_app/widgets/app_drawer.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
