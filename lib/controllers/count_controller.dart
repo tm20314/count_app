@@ -23,10 +23,7 @@ class CountController extends ChangeNotifier {
 
     final countResponse = await _supabaseService.fetchCountData();
     _personCountData = countResponse
-        .map<PersonCountData>((item) => PersonCountData(
-              DateTime.parse(item['time'] as String),
-              item['person'] as int,
-            ))
+        .map<PersonCountData>((item) => PersonCountData.fromJson(item))
         .toList();
 
     notifyListeners();

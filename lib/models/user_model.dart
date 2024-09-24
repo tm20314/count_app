@@ -1,16 +1,16 @@
-class UserModel {
-  final String fullName;
-  final String email;
-  final String avatarUrl;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  UserModel(
-      {required this.fullName, required this.email, required this.avatarUrl});
+part 'user_model.freezed.dart';
+part 'user_model.g.dart';
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      fullName: map['full_name'] ?? 'No Name',
-      email: map['email'] ?? 'No Email',
-      avatarUrl: map['avatar_url'] ?? '',
-    );
-  }
+@freezed
+class UserModel with _$UserModel {
+  const factory UserModel({
+    required String fullName,
+    required String email,
+    required String avatarUrl,
+  }) = _UserModel;
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }
