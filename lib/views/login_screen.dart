@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+//ログイン画面
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -13,12 +14,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //初期化処理
   @override
   void initState() {
     super.initState();
     _checkAuthState();
   }
 
+//ログイン済みか確認する関数
   void _checkAuthState() async {
     final session = supabase.auth.currentSession;
     if (session != null) {
@@ -36,9 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  //Supabaseの認証状態の変化を監視
+
   void _setupAuthListener() {
     supabase.auth.onAuthStateChange.listen((data) {
       final event = data.event;
+      //ログインしたらポップアップを表示して画面遷移
       if (event == AuthChangeEvent.signedIn) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -54,9 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  // Googleでサインインさせるやつ
   Future<void> _googleSignIn() async {
     try {
       if (kIsWeb) {
+        // Web環境の場合、OAuthを使用してGoogleでサインイン
         await supabase.auth.signInWithOAuth(
           OAuthProvider.google,
           redirectTo: 'https://gadgelogger.github.io/count_app/', // 実際の開発環境のURL
@@ -65,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         );
       } else {
+        // モバイル環境の場合、GoogleSignInを使用してサインイン
         const webClientId =
             '242312621999-13sbtm407bp8t2g0k506jo3astk4c1et.apps.googleusercontent.com';
         const iosClientId =
@@ -97,6 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
           throw 'No ID Token found.';
         }
 
+        // Supabaseを使用してIDトークンでサインイン
         await supabase.auth.signInWithIdToken(
           provider: OAuthProvider.google,
           idToken: idToken,

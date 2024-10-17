@@ -2,6 +2,7 @@ import 'package:count_app/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+//Supabaseの初期化処理+連携するためのAPIキーを設定
 void main() async {
   await Supabase.initialize(
       url: 'https://ycnpvgqdogzhjhiilvbs.supabase.co',
@@ -12,7 +13,7 @@ void main() async {
 
 final supabase = Supabase.instance.client;
 
-// MainAppクラス: アプリケーションの状態を管理するStatefulWidget
+//アプリのエントリーポイント
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
