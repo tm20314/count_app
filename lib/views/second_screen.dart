@@ -63,31 +63,36 @@ class SecondScreenState extends State<SecondScreen> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 2024) {
-            // iPadなどの大きな画面
-            return Wrap(
-              children: [
-                LocationTitleCard(timestamp: _timestamp),
-                CurrentCountWidget(personCount: _personCount),
-                ImageWidget(imageUrl: _imageUrl),
-                RadialGaugeWidget(personCount: _personCount),
-                GraphWidget(personCountData: _personCountData),
-              ],
-            );
-          } else {
-            // スマホなどの小さな画面
-            return ListView(
-              children: [
-                LocationTitleCard(timestamp: _timestamp),
-                CurrentCountWidget(personCount: _personCount),
-                ImageWidget(imageUrl: _imageUrl),
-                RadialGaugeWidget(personCount: _personCount),
-                GraphWidget(personCountData: _personCountData),
-              ],
-            );
-          }
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth > 2024 ||
+                  orientation == Orientation.landscape) {
+                // 画面幅が2024以上または横向きの場合
+                return Wrap(
+                  children: [
+                    LocationTitleCard(timestamp: _timestamp),
+                    CurrentCountWidget(personCount: _personCount),
+                    ImageWidget(imageUrl: _imageUrl),
+                    RadialGaugeWidget(personCount: _personCount),
+                    GraphWidget(personCountData: _personCountData),
+                  ],
+                );
+              } else {
+                // 画面幅が2024以下の場合
+                return ListView(
+                  children: [
+                    LocationTitleCard(timestamp: _timestamp),
+                    CurrentCountWidget(personCount: _personCount),
+                    ImageWidget(imageUrl: _imageUrl),
+                    RadialGaugeWidget(personCount: _personCount),
+                    GraphWidget(personCountData: _personCountData),
+                  ],
+                );
+              }
+            },
+          );
         },
       ),
     );

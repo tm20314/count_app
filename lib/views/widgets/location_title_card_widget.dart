@@ -16,7 +16,7 @@ class LocationTitleCard extends StatelessWidget {
           children: [
             const Center(
               child: Text(
-                '大山研究室 混雑具合',
+                '研究室 混雑具合',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 50),
               ),
