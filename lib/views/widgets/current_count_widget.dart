@@ -24,15 +24,15 @@ class CurrentCountWidget extends StatelessWidget {
                   Icons.person,
                   size: 100,
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Text(
                   '現在のおおよその人数',
-                  style: TextStyle(fontSize: 25, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 25.sh, color: Colors.grey[600]),
                 ),
                 Text(
                   '$personCount人',
-                  style: const TextStyle(
-                    fontSize: 78,
+                  style: TextStyle(
+                    fontSize: 78.sh,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

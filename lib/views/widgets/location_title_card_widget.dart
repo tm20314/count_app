@@ -15,11 +15,11 @@ class LocationTitleCard extends StatelessWidget {
       child: Card(
         child: Stack(
           children: [
-            const Center(
+            Center(
               child: Text(
                 '研究室 混雑具合',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 50),
+                style: TextStyle(fontSize: 50.sh),
               ),
             ),
             Positioned(
@@ -27,7 +27,7 @@ class LocationTitleCard extends StatelessWidget {
               bottom: 10,
               child: Text(
                 timestamp,
-                style: const TextStyle(fontSize: 12),
+                style: TextStyle(fontSize: 12.sh),
               ),
             ),
           ],
