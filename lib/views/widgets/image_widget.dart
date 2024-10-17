@@ -1,5 +1,6 @@
 // lib/views/widgets/image_widget.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageWidget extends StatelessWidget {
   final String imageUrl;
@@ -17,7 +18,7 @@ class ImageWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         child: Image.network(
           imageUrl,
-          height: 400,
+          height: 1000.h,
           fit: BoxFit.cover,
         ),
       ),

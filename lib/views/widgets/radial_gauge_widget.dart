@@ -1,5 +1,6 @@
 // lib/views/widgets/radial_gauge_widget.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class RadialGaugeWidget extends StatelessWidget {
@@ -10,8 +11,8 @@ class RadialGaugeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 500,
-      height: 500,
+      width: 800.w,
+      height: 1400.h,
       child: Card(
         child: SfRadialGauge(
           axes: [

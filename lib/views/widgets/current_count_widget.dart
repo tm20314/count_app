@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CurrentCountWidget extends StatelessWidget {
   final int personCount;
@@ -8,8 +9,8 @@ class CurrentCountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
-      width: 340,
+      height: 1000.h,
+      width: 500.w,
       child: Card(
         child: Center(
           // Cardの中の要素を中央に配置

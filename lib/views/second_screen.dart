@@ -67,9 +67,9 @@ class SecondScreenState extends State<SecondScreen> {
         builder: (context, orientation) {
           return LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth > 2024 ||
+              if (constraints.maxWidth >= 2100 ||
                   orientation == Orientation.landscape) {
-                // 画面幅が2024以上または横向きの場合
+                // 画面幅が2100以上または横向きの場合
                 return Wrap(
                   children: [
                     LocationTitleCard(timestamp: _timestamp),
@@ -79,8 +79,20 @@ class SecondScreenState extends State<SecondScreen> {
                     GraphWidget(personCountData: _personCountData),
                   ],
                 );
+              } else if (constraints.maxWidth <= 1000 ||
+                  orientation == Orientation.portrait) {
+                // 画面幅が1000以下または縦向きの場合
+                return ListView(
+                  children: [
+                    LocationTitleCard(timestamp: _timestamp),
+                    CurrentCountWidget(personCount: _personCount),
+                    ImageWidget(imageUrl: _imageUrl),
+                    RadialGaugeWidget(personCount: _personCount),
+                    GraphWidget(personCountData: _personCountData),
+                  ],
+                );
               } else {
-                // 画面幅が2024以下の場合
+                // その他の場合
                 return ListView(
                   children: [
                     LocationTitleCard(timestamp: _timestamp),

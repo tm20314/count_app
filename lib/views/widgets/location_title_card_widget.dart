@@ -1,5 +1,6 @@
 // lib/views/widgets/lab_status_card.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LocationTitleCard extends StatelessWidget {
   final String timestamp;
@@ -9,8 +10,8 @@ class LocationTitleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 500,
-      height: 400,
+      height: 1000.h,
+      width: 800.w,
       child: Card(
         child: Stack(
           children: [

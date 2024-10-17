@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/person_count_data.dart';
@@ -15,8 +16,8 @@ class GraphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
-      width: 875,
+      height: 1400.h,
+      width: 1250.w,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
