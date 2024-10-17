@@ -11,7 +11,7 @@ class TimestampWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'タイムスタンプ: $timestamp',
-      style: TextStyle(fontSize: 16.sh, color: Colors.grey[600]),
+      style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
       textAlign: TextAlign.center,
     );
   }

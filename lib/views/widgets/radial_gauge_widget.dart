@@ -65,7 +65,7 @@ class RadialGaugeWidget extends StatelessWidget {
                       Text(
                         countPerson(personCount),
                         style: TextStyle(
-                          fontSize: 40.sh,
+                          fontSize: 40.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

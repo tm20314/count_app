@@ -26,89 +26,91 @@ class GraphWidget extends StatelessWidget {
             children: [
               Text(
                 '過去24時間の人数変動',
-                style: TextStyle(fontSize: 18.sh, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
                   width: max(MediaQuery.of(context).size.width - 32, 600),
-                  height: 300.h,
-                  child: BarChart(
-                    BarChartData(
-                      barGroups: personCountData.reversed
-                          .toList()
-                          .asMap()
-                          .entries
-                          .map((entry) {
-                        final index = entry.key;
-                        final data = entry.value;
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: data.count.toDouble(),
-                              gradient: const LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [Colors.blue, Colors.blueAccent],
+                  height: 1100.h,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: BarChart(
+                      BarChartData(
+                        barGroups: personCountData.reversed
+                            .toList()
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          final index = entry.key;
+                          final data = entry.value;
+                          return BarChartGroupData(
+                            x: index,
+                            barRods: [
+                              BarChartRodData(
+                                toY: data.count.toDouble(),
+                                gradient: const LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [Colors.blue, Colors.blueAccent],
+                                ),
+                                width: 16,
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(4)),
                               ),
-                              width: 16,
-                              borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(4)),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                      alignment: BarChartAlignment.spaceAround,
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              final index = value.toInt();
-                              if (index >= 0 &&
-                                  index < personCountData.length) {
-                                final date = personCountData.reversed
-                                    .toList()[index]
-                                    .time;
-                                final format = DateFormat('HH');
-                                return SideTitleWidget(
-                                  axisSide: meta.axisSide,
-                                  child: Text(format.format(date)),
-                                );
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                        ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              return Text(value.toInt().toString());
-                            },
-                            interval: 1,
-                          ),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.grey.withOpacity(0.2),
-                            strokeWidth: 1,
+                            ],
                           );
-                        },
+                        }).toList(),
+                        alignment: BarChartAlignment.spaceAround,
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                final index = value.toInt();
+                                if (index >= 0 &&
+                                    index < personCountData.length) {
+                                  final date = personCountData.reversed
+                                      .toList()[index]
+                                      .time;
+                                  final format = DateFormat('HH');
+                                  return SideTitleWidget(
+                                    axisSide: meta.axisSide,
+                                    child: Text(format.format(date)),
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 30,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                return Text(value.toInt().toString());
+                              },
+                              interval: 1,
+                            ),
+                          ),
+                          topTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          rightTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                        ),
+                        gridData: FlGridData(
+                          show: true,
+                          drawVerticalLine: false,
+                          getDrawingHorizontalLine: (value) {
+                            return FlLine(
+                              color: Colors.grey.withOpacity(0.2),
+                              strokeWidth: 1,
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
