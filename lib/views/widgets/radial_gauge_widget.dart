@@ -81,16 +81,18 @@ class RadialGaugeWidget extends StatelessWidget {
   }
 
   String countPerson(int personCount) {
-    if (personCount <= 1) {
+    if (personCount == 0) {
+      return 'ガラ空き';
+    } else if (personCount >= 1 && personCount < 2) {
       return '空いている';
-    } else if (personCount <= 2) {
+    } else if (personCount >= 2 && personCount < 3) {
       return '普通';
-    } else if (personCount <= 3) {
+    } else if (personCount >= 3 && personCount < 4) {
       return '少し混んでいる';
-    } else if (personCount <= 4) {
+    } else if (personCount >= 4 && personCount < 5) {
       return '混んでいる';
-    } else if (personCount <= 5) {
-      return '混んでいる';
+    } else if (personCount >= 5) {
+      return 'パーティー会場';
     } else {
       return '不明';
     }
