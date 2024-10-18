@@ -43138,11 +43138,12 @@ A.re.prototype={
 M(a){var s=null,r=$.dm().gnm(),q=$.dm().gkM(),p=A.b([A.a0Z(B.Ij,1,20,0,20),A.a0Z(B.Ik,2,20,1,20),A.a0Z(B.Io,3,20,2,20),A.a0Z(B.Im,4,20,3,20)],t.WL),o=this.c,n=A.b([new A.Jg(B.zp,!0,o,s)],t.iO)
 p=A.b([A.aHT(A.b([new A.wI(0.5,90,A.vr(A.b([A.ie(this.acE(o),s,A.fW(s,s,s,s,s,s,s,s,s,s,s,$.dm().nq(40),s,s,B.b3,s,s,!0,s,s,s,s,s,s,s,s),s)],t.p),B.aw,B.fp,B.bp),s)],t.aR),4,0,n,p)],t.ud)
 return A.fS(A.YG(new A.zD(p,s)),1400*q,800*r)},
-acE(a){if(a<=1)return"\u7a7a\u3044\u3066\u3044\u308b"
-else if(a<=2)return"\u666e\u901a"
-else if(a<=3)return"\u5c11\u3057\u6df7\u3093\u3067\u3044\u308b"
-else if(a<=4)return"\u6df7\u3093\u3067\u3044\u308b"
-else if(a<=5)return"\u6df7\u3093\u3067\u3044\u308b"
+acE(a){if(a===0)return"\u30ac\u30e9\u7a7a\u304d"
+else if(a>=1&&a<2)return"\u7a7a\u3044\u3066\u3044\u308b"
+else if(a>=2&&a<3)return"\u666e\u901a"
+else if(a>=3&&a<4)return"\u5c11\u3057\u6df7\u3093\u3067\u3044\u308b"
+else if(a>=4&&a<5)return"\u6df7\u3093\u3067\u3044\u308b"
+else if(a>=5)return"\u30d1\u30fc\u30c6\u30a3\u30fc\u4f1a\u5834"
 else return"\u4e0d\u660e"}}
 A.nj.prototype={
 k(a,b){var s,r,q,p,o
