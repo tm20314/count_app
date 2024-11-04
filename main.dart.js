@@ -42961,7 +42961,7 @@ var $async$v0=A.L(function(a,b){if(a===1){p=b
 s=q}while(true)switch(s){case 0:q=3
 m=t.N
 s=6
-return A.M(A.HT($.WR().gfK(),B.ID,A.aj(["hd","ous.jp"],m,m),"https://gadgelogger.github.io/count_app/"),$async$v0)
+return A.M(A.HT($.WR().gfK(),B.ID,A.aj(["hd","ous.jp"],m,m),"https://tm20314.github.io/count_app/"),$async$v0)
 case 6:A.uD("Google Sign In successful")
 q=1
 s=5
