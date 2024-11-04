@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Web環境の場合、OAuthを使用してGoogleでサインイン
         await supabase.auth.signInWithOAuth(
           OAuthProvider.google,
-          redirectTo: 'https://gadgelogger.github.io/count_app/', // 実際の開発環境のURL
+          redirectTo: 'https://tm20314.github.io/count_app/', // 実際の開発環境のURL
           queryParams: {
             'hd': 'ous.jp',
           },
