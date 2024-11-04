@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Auth',
+          title: 'Person Count',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
             useMaterial3: true,
